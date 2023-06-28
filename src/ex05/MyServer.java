@@ -6,8 +6,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
+/* ex04의 코드를 리팩토링 */
 public class MyServer {
 	
 	ServerSocket serverSocket;
@@ -19,6 +21,7 @@ public class MyServer {
 	public MyServer() throws Exception {
 		// 1. 메인쓰레드는 리스너를 담당
 		serverSocket = new ServerSocket(10000);
+		System.out.println("서버 소켓이 클라이언트 대기중...");
 		socket = serverSocket.accept(); // 리스너 대기중
 		System.out.println("클라이언트가 연결되었습니다");
 		System.out.println(socket.getPort());
@@ -40,12 +43,12 @@ public class MyServer {
 	
 	private void connectLine() throws Exception {
 		reader = new BufferedReader(
-			new InputStreamReader(socket.getInputStream(), "utf-8")
+			new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8)
 		);
 		writer = new BufferedWriter(
-			new OutputStreamWriter(socket.getOutputStream(), "utf-8")
+			new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8)
 		);
-		keyboard = new Scanner(System.in, "utf-8");
+		keyboard = new Scanner(System.in, StandardCharsets.UTF_8);
 	}
 	
 	private void write() {
